@@ -680,7 +680,11 @@ html_out.append("""
       <span class="cover-meta-val">Vibe Code School (Dinesh Puppala) & Anthropic</span>
     </div>
     <div class="cover-meta-row">
-      <span class="cover-meta-label">ترجمه، تبیین و تنظیم تخصصی:</span>
+      <span class="cover-meta-label">تولید و ترجمه محتوا:</span>
+      <span class="cover-meta-val">هوش مصنوعی Gemini 3.8 Flash</span>
+    </div>
+    <div class="cover-meta-row">
+      <span class="cover-meta-label">گردآوری، نظارت و انتشار:</span>
       <span class="cover-meta-val">مهدی حیدرپور (MahdiDev)</span>
     </div>
     <div class="cover-meta-row">
@@ -689,7 +693,7 @@ html_out.append("""
     </div>
     <div class="cover-meta-row">
       <span class="cover-meta-label">تاریخ انتشار:</span>
-      <span class="cover-meta-val">آبان ۱۴۰۳ (مطابق با نسخه ۲۰۲۶)</span>
+      <span class="cover-meta-val">آبان ۱۴۰۵ (مطابق با اکتبر ۲۰۲۶)</span>
     </div>
   </div>
 </div>
@@ -1000,7 +1004,7 @@ html_out.append("""
     🌟 <strong>پیشنهاد بعدی:</strong> همین حالا ترمینال خود را باز کنید، دستور <code>claude</code> را در یکی از پروژه‌هایتان تایپ کنید و اولین سایدپروژه واقعی خود را با ریتم Spec → Tests → Code خلق کنید!
   </div>
   <div style="margin-top: 30px; font-size: 8.5pt; color: #94a3b8;">
-    تهیه‌شده با عشق برای جامعه توسعه‌دهندگان مدرن وب · پاییز ۱۴۰۳ (مطابق با ۲۰۲۶)
+    تولیدشده توسط هوش مصنوعی با نظارت مهدی حیدرپور برای جامعه توسعه‌دهندگان مدرن وب · پاییز ۱۴۰۵ (مطابق با ۲۰۲۶)
   </div>
 </div>
 """)
