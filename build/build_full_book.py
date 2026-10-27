@@ -685,7 +685,7 @@ html_out.append("""
     </div>
     <div class="cover-meta-row">
       <span class="cover-meta-label">گردآوری، نظارت و انتشار:</span>
-      <span class="cover-meta-val">مهدی حیدرپور (MahdiDev)</span>
+      <span class="cover-meta-val">مهدی حیدرپور (mahdi-hp.ir)</span>
     </div>
     <div class="cover-meta-row">
       <span class="cover-meta-label">تایپوگرافی و قلم:</span>
