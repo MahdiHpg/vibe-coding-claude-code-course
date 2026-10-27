@@ -1,0 +1,1666 @@
+[
+  {
+    "id": "cc-m1-setup",
+    "title": "Setup & Foundations",
+    "summary": "Install the CLI, learn the loop, set up project memory. End of this module you're operational.",
+    "lessons": [
+      {
+        "id": "cc-01-what-is-claude-code",
+        "video": {
+          "youtubeId": "iF9iV4xponk",
+          "title": "The Future of Agentic Coding with Claude Code",
+          "channel": "Anthropic",
+          "note": "The team that builds Claude Code explains the agentic model this whole course is built on — worth 10 minutes before you type your first prompt."
+        },
+        "title": "What Is Claude Code",
+        "kind": "concept",
+        "duration": "8 min",
+        "summary": "An agentic CLI that reads your repo, edits files, runs tests, and commits — all with permission gates you control.",
+        "body": [
+          "Claude Code is not autocomplete. It is an agent that operates a real terminal: it reads files, runs commands, writes code, and waits for your approval at each risky step. It lives in your terminal first, but the same agent now runs in the VS Code and JetBrains extensions, a desktop app, and on the web at claude.ai/code — everything in this course transfers.",
+          "The mental shift: instead of typing characters, you describe outcomes. Instead of clicking Run, you watch the agent run things and read back the output. Instead of debugging line by line, you tell it what's broken and it iterates until tests pass.",
+          "Vibe coding is the practice of working at this altitude. You stay in flow on the *what*, the agent handles the *how*. The skills you'll build in this course are the prompts, patterns, and guardrails that make this loop reliable."
+        ],
+        "quiz": [
+          {
+            "q": "Which of these best describes Claude Code?",
+            "options": [
+              "An IDE plugin that autocompletes code as you type.",
+              "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+              "A SaaS that hosts your code in the cloud and runs tests there.",
+              "A code review bot that comments on GitHub PRs."
+            ],
+            "correctIndex": 1,
+            "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+          },
+          {
+            "q": "What is the core mental shift of \"vibe coding\"?",
+            "options": [
+              "Letting the AI ship code with no oversight.",
+              "Typing prompts in natural language instead of code.",
+              "Operating at the level of outcomes; the agent handles the how.",
+              "Replacing your editor with a chat window."
+            ],
+            "correctIndex": 2,
+            "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+          }
+        ]
+      },
+      {
+        "id": "cc-02-install-the-cli",
+        "video": {
+          "youtubeId": "zrcCS9oHjtI",
+          "title": "Claude Code on Desktop",
+          "channel": "Anthropic",
+          "note": "Prefer an app over a terminal? Same agent, desktop surface — watch after the CLI install to see which home fits you."
+        },
+        "title": "Install the CLI",
+        "kind": "walkthrough",
+        "duration": "6 min",
+        "summary": "Get Claude Code running on your machine and verify the install.",
+        "content": [
+          {
+            "kind": "callout",
+            "tone": "info",
+            "text": "You need a Claude account with a **Pro or Max plan** (or an Anthropic API key). The install itself is free — the agent needs the account to think with."
+          },
+          {
+            "kind": "tabs",
+            "tabs": [
+              {
+                "label": "macOS / Linux",
+                "lang": "bash",
+                "code": "curl -fsSL https://claude.ai/install.sh | bash"
+              },
+              {
+                "label": "Windows",
+                "lang": "powershell",
+                "code": "irm https://claude.ai/install.ps1 | iex"
+              },
+              {
+                "label": "npm",
+                "lang": "bash",
+                "code": "npm install -g @anthropic-ai/claude-code"
+              }
+            ]
+          },
+          {
+            "kind": "callout",
+            "tone": "success",
+            "text": "Verify with `claude --version` — a version number means the CLI is on your PATH and ready."
+          },
+          {
+            "kind": "expand",
+            "title": "Which install method should I pick?",
+            "text": "The native installer (curl/PowerShell) is recommended — no Node.js required and it self-updates cleanly. Use the npm route only if you already live in a Node toolchain and prefer managing it there."
+          }
+        ],
+        "steps": [
+          {
+            "title": "Install the CLI",
+            "body": "Pick your platform in the tabs above and run the one-liner. The native installer is the recommended path — no Node.js required.",
+            "copy": "claude --version",
+            "copyLang": "bash",
+            "verify": "A version number prints. If `command not found`, open a fresh terminal so PATH changes load."
+          },
+          {
+            "title": "Authenticate",
+            "body": "Launch Claude Code from any directory. The first run opens a browser window for OAuth login with your Claude account.",
+            "copy": "claude",
+            "copyLang": "bash",
+            "verify": "After login the prompt becomes interactive and shows your working directory in the header."
+          },
+          {
+            "title": "Pick a project",
+            "body": "Quit (Ctrl+C twice) and re-run `claude` from inside an existing repo. The directory you launch from becomes the working tree the agent can read and edit.",
+            "copy": "cd ~/code/your-project\nclaude",
+            "copyLang": "bash",
+            "verify": "The header shows the project path. Type \"hi\" to confirm the agent responds."
+          },
+          {
+            "title": "Try a smoke test",
+            "body": "Ask the agent to describe your repo. If it can list files and summarize the structure, your install is healthy.",
+            "copy": "What does this repo do? Read package.json and the README, then summarize in 3 lines.",
+            "copyLang": "text",
+            "verify": "You should see a Read tool call against your files, then a 3-line summary."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Which folder becomes Claude Code's working tree?",
+            "options": [
+              "Your home directory, always.",
+              "Whichever directory you launched `claude` from.",
+              "A sandbox folder Claude creates automatically.",
+              "Any folder you give it the absolute path to."
+            ],
+            "correctIndex": 1,
+            "explanation": "Claude Code uses your launch directory as the project root. Files outside that root are not visible to it unless you give it explicit access."
+          }
+        ]
+      },
+      {
+        "id": "cc-03-first-conversation",
+        "title": "Your First Conversation",
+        "kind": "sandbox",
+        "duration": "10 min",
+        "summary": "Watch the agentic loop in action: a single prompt, a tool call, a result, an answer. This is the heartbeat.",
+        "body": [
+          "Every Claude Code interaction is a loop. You speak. The agent decides if it needs information from your machine. If yes, it calls a tool — Read, Bash, Grep — and waits for the result. Then it speaks again, and the loop continues until the task is done.",
+          "Below is a sandbox replay of a real first conversation. Watch how the agent uses Read to actually look at the file before answering — this is what separates an agent from autocomplete."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Open the README and tell me what this project does in one sentence."
+          },
+          {
+            "role": "assistant",
+            "text": "I'll read the README first, then summarize."
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "README.md",
+            "text": "# Vibe Code School\n\nAn interactive curriculum for learning agentic AI tools end-to-end. Tracks include Claude Code, Codex for mobile, Antigravity for agents, Claude Cowork, and ChatGPT Work."
+          },
+          {
+            "role": "assistant",
+            "text": "It's an interactive curriculum that teaches three agentic coding tools — Claude Code, Codex for mobile, and Antigravity — end to end."
+          },
+          {
+            "role": "user",
+            "text": "Are there any failing tests?"
+          },
+          {
+            "role": "assistant",
+            "text": "Let me check by running the test suite."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test --silent",
+            "text": "PASS  app/courses/page.test.tsx\nPASS  components/site-header.test.tsx\n\nTests: 2 passed, 2 total\nTime: 1.4s"
+          },
+          {
+            "role": "assistant",
+            "text": "Two tests, both passing. The suite is green."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why did the agent use Read before summarizing?",
+            "options": [
+              "It was required by the system prompt.",
+              "It needed the actual file contents to give a grounded answer instead of guessing.",
+              "Read is faster than its built-in knowledge.",
+              "It always reads README.md before doing anything else."
+            ],
+            "correctIndex": 1,
+            "explanation": "An agent grounds its answers in real evidence. If it can read the file, it should — guessing from a project name is exactly the failure mode tools were built to prevent."
+          },
+          {
+            "q": "What was the loop in this conversation?",
+            "options": [
+              "User → Read → Done.",
+              "User → Assistant decision → Tool call → Tool result → Assistant answer.",
+              "Assistant → User → Tool → Done.",
+              "Tool → User → Assistant → Tool."
+            ],
+            "correctIndex": 1,
+            "explanation": "Every turn the agent decides whether it needs evidence. If yes, it calls a tool and waits. If no, it answers from context. That cycle repeats until the task is complete."
+          }
+        ]
+      },
+      {
+        "id": "cc-04-the-agentic-loop",
+        "title": "The Agentic Loop",
+        "kind": "concept",
+        "duration": "9 min",
+        "summary": "Plan → act → observe → adjust. Understanding this loop is the difference between fighting the agent and flowing with it.",
+        "body": [
+          "Every step the agent takes follows the same four-beat rhythm. Plan: decide what to do next based on the current goal and context. Act: call a tool — read a file, run a command, edit code. Observe: read the tool's output. Adjust: update the plan based on what came back, then loop.",
+          "When you understand this rhythm, two things happen. First, you stop interrupting mid-loop — you let the agent finish its observation before adding new constraints. Second, you start writing prompts that *front-load* the constraints, because constraints added before a loop starts are cheap; constraints added in the middle force a re-plan.",
+          "Concretely: 'Refactor the auth module. Keep the public API stable. Add tests for every changed file.' is a complete loop input. 'Refactor the auth module' followed by 'oh and don't break the API' two minutes later is a re-plan that costs you turns."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Add a /health endpoint to the API. It should return {status: 'ok'} and have a test."
+          },
+          {
+            "role": "assistant",
+            "text": "Plan: find the API entry point, add the route, add a test. Acting now."
+          },
+          {
+            "role": "tool",
+            "tool": "Glob",
+            "toolInput": "src/**/server.{ts,js}",
+            "text": "src/server.ts"
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "src/server.ts",
+            "text": "import express from 'express';\nconst app = express();\napp.get('/api/users', getUsers);\napp.listen(3000);"
+          },
+          {
+            "role": "assistant",
+            "text": "I see Express. Adding the /health route and a Jest test next to existing tests."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/server.ts (add /health route)",
+            "text": "Edit applied successfully."
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "src/server.test.ts",
+            "text": "Wrote 18 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test --silent",
+            "text": "PASS  src/server.test.ts\nTests: 1 passed."
+          },
+          {
+            "role": "assistant",
+            "text": "Done. /health returns {status:'ok'} and the new test passes. Two files changed."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Which sequence describes one beat of the agentic loop?",
+            "options": [
+              "Plan, act, observe, adjust.",
+              "Read, edit, commit, push.",
+              "Prompt, generate, validate, deploy.",
+              "Think, write, test, review."
+            ],
+            "correctIndex": 0,
+            "explanation": "Plan: decide. Act: call a tool. Observe: read result. Adjust: update the plan. Then loop."
+          },
+          {
+            "q": "Why is front-loading constraints in your prompt cheaper than adding them later?",
+            "options": [
+              "It uses fewer tokens overall.",
+              "Constraints added mid-loop force a re-plan, throwing away work that was done under the wrong assumption.",
+              "Late constraints are ignored.",
+              "Front-loaded constraints unlock a faster model."
+            ],
+            "correctIndex": 1,
+            "explanation": "If the agent has already read three files and started editing under one set of rules, a new constraint can invalidate that work. Stating constraints up front avoids the re-plan cost."
+          }
+        ]
+      },
+      {
+        "id": "cc-05-claude-md-and-memory",
+        "title": "CLAUDE.md and Project Memory",
+        "kind": "walkthrough",
+        "duration": "12 min",
+        "summary": "Project-level instructions the agent loads automatically. The single highest-leverage file in your repo when you work this way.",
+        "body": [
+          "Every time you launch Claude Code in a directory that has a CLAUDE.md, the file is injected into the agent's context. It's how you teach the agent your conventions, your stack, and your taste — once, durably.",
+          "Good CLAUDE.md files are short and specific: things the agent could not figure out by reading the code. Bad CLAUDE.md files restate what's obvious from package.json. The /init slash command writes a starter file you then prune. Mid-session, start any message with `#` to fold a new rule into memory without breaking flow."
+        ],
+        "steps": [
+          {
+            "title": "Run /init in a real project",
+            "body": "From inside a project with code, type /init. The agent reads your repo and proposes a CLAUDE.md.",
+            "copy": "/init",
+            "copyLang": "text",
+            "verify": "A CLAUDE.md appears at your project root with sections like 'Stack' and 'Conventions'."
+          },
+          {
+            "title": "Trim aggressively",
+            "body": "Open the generated file. Delete anything obvious from package.json (frameworks, scripts). Keep only: hidden conventions, deploy quirks, and rules you've corrected the agent on before.",
+            "copy": "# Project notes\n\n## Stack quirks\n- We use pnpm workspaces; never run `npm install`.\n- The mobile package depends on a private registry — set NPM_TOKEN before installing.\n\n## House style\n- Tests live next to source as `*.test.ts`, not in `__tests__`.\n- Prefer named exports; default exports only for Next.js page files.\n- No console.log in committed code; use the logger in lib/log.ts.",
+            "copyLang": "markdown",
+            "verify": "Your CLAUDE.md is under ~30 lines and every line says something the agent could not infer."
+          },
+          {
+            "title": "Test that it took",
+            "body": "Quit and relaunch claude in the same directory. Ask a question whose answer requires the file.",
+            "copy": "What package manager does this repo use, and why?",
+            "copyLang": "text",
+            "verify": "The agent answers \"pnpm — npm install would corrupt the workspaces\" without reading any other file."
+          },
+          {
+            "title": "Add a personal layer",
+            "body": "Create ~/.claude/CLAUDE.md for cross-project preferences (your tone, your default test framework). It loads on every project, layered under the project file.",
+            "copy": "# My preferences\n- Keep responses terse; no end-of-turn summaries.\n- Default to TypeScript when language is ambiguous.\n- When suggesting libraries, prefer the smallest dependency that works.",
+            "copyLang": "markdown",
+            "verify": "These rules now apply in every Claude Code session you open."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What belongs in CLAUDE.md?",
+            "options": [
+              "Everything in package.json restated in prose.",
+              "Things the agent cannot figure out from reading the code: hidden conventions, deploy quirks, taste rules you've already corrected once.",
+              "A full architecture overview, multiple pages.",
+              "Your API keys and secrets."
+            ],
+            "correctIndex": 1,
+            "explanation": "CLAUDE.md is for the non-obvious. Anything inferable from the codebase belongs in the codebase. Anything secret never goes in CLAUDE.md."
+          },
+          {
+            "q": "Where does the personal layer live?",
+            "options": [
+              "In every CLAUDE.md, copy-pasted.",
+              "~/.claude/CLAUDE.md — loaded on every project, under the project file.",
+              ".vscode/settings.json.",
+              "It doesn't exist; CLAUDE.md is project-only."
+            ],
+            "correctIndex": 1,
+            "explanation": "~/.claude/CLAUDE.md is your global layer. Project CLAUDE.md overrides it where they conflict."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cc-m2-core-workflows",
+    "title": "Core Workflows",
+    "summary": "The day-to-day loops that make agentic coding faster than typing.",
+    "lessons": [
+      {
+        "id": "cc-06-reading-and-editing",
+        "title": "Reading and Editing Files",
+        "kind": "sandbox",
+        "duration": "9 min",
+        "summary": "The agent navigates, edits, and verifies across multiple files in one turn.",
+        "body": [
+          "Read pulls a file into context. Edit replaces an exact string. Write creates or overwrites a file. The agent picks the right tool for the size of the change — Edit for surgical work, Write for new files.",
+          "Watch the agent stay disciplined: it reads before it edits, and after every edit it can re-read to confirm the change took. This is how reliability is built into agentic workflows — not through promises, but through verifiable observations."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Rename the variable `usr` to `user` in src/auth.ts. Update every usage."
+          },
+          {
+            "role": "assistant",
+            "text": "I'll read the file first to see all the usages, then make a single Edit."
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "src/auth.ts",
+            "text": "export function login(usr: string) {\n  if (!usr) throw new Error('no usr');\n  return { id: usr };\n}"
+          },
+          {
+            "role": "assistant",
+            "text": "Three usages. Renaming all three with replace_all."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/auth.ts (replace_all 'usr' → 'user')",
+            "text": "Replaced 3 occurrences."
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "src/auth.ts",
+            "text": "export function login(user: string) {\n  if (!user) throw new Error('no user');\n  return { id: user };\n}"
+          },
+          {
+            "role": "assistant",
+            "text": "Done. Verified by re-reading: all three usages now say `user`."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why did the agent re-read the file after editing?",
+            "options": [
+              "To make the conversation longer.",
+              "To verify the edit landed correctly before claiming success.",
+              "Because Edit doesn't actually write to disk.",
+              "It's required by the Edit tool."
+            ],
+            "correctIndex": 1,
+            "explanation": "Trust but verify. The agent confirms its own work with an observation, not a promise."
+          }
+        ]
+      },
+      {
+        "id": "cc-07-searching-the-codebase",
+        "title": "Searching the Codebase",
+        "kind": "sandbox",
+        "duration": "8 min",
+        "summary": "Glob finds files by pattern. Grep finds content inside them. Knowing which to use is half the speed.",
+        "body": [
+          "Glob is for 'where does X live': `**/*.test.ts` finds every test file. Grep is for 'who uses Y': `useAuth\\(` finds every call site. The mistake new users make is greping when they should glob — slower, noisier.",
+          "When you're not sure, ask the agent for a plan first. It will pick correctly more often than you do."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Where is the auth middleware applied? Show me every route that uses it."
+          },
+          {
+            "role": "assistant",
+            "text": "I'll grep for the middleware import and its uses."
+          },
+          {
+            "role": "tool",
+            "tool": "Grep",
+            "toolInput": "authMiddleware",
+            "text": "src/server.ts:4: import { authMiddleware } from './middleware/auth';\nsrc/server.ts:18: app.use('/api/private', authMiddleware, privateRouter);\nsrc/routes/admin.ts:3: import { authMiddleware } from '../middleware/auth';\nsrc/routes/admin.ts:7: router.use(authMiddleware);"
+          },
+          {
+            "role": "assistant",
+            "text": "It's applied in two places: globally on /api/private (server.ts:18) and on the admin router (admin.ts:7). Every other route is public."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "When should you use Glob over Grep?",
+            "options": [
+              "When you want to find file *names* matching a pattern, not their contents.",
+              "Always — Grep is slower.",
+              "When you're searching binary files.",
+              "When you don't know what you're looking for."
+            ],
+            "correctIndex": 0,
+            "explanation": "Glob filters by path/name. Grep reads file contents. Use Glob to locate files; use Grep to find usages."
+          }
+        ]
+      },
+      {
+        "id": "cc-08-running-tests",
+        "title": "Running Tests with Claude",
+        "kind": "sandbox",
+        "duration": "10 min",
+        "summary": "Tight feedback loops: run, read failure, fix, run again — without you driving.",
+        "body": [
+          "Once tests are wired up, the agent can drive the red→green loop on its own. You describe what should be true; it writes the assertion; it watches the test fail; it edits the implementation; it re-runs until green.",
+          "The skill here is *trusting the loop*. Don't peek at every iteration — let it run, then review the diff at the end."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Add a test that login() throws if email is missing. Then make sure it passes."
+          },
+          {
+            "role": "assistant",
+            "text": "Adding the test first. It should fail, then I'll fix it."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/auth.test.ts (add test)",
+            "text": "Added 6 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run auth",
+            "text": "FAIL  src/auth.test.ts\n  ● login throws on missing email\n    Expected to throw, but did not.\nTests: 1 failed."
+          },
+          {
+            "role": "assistant",
+            "text": "Failing as expected. Now adding the validation."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/auth.ts (validate email)",
+            "text": "Edit applied."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run auth",
+            "text": "PASS  src/auth.test.ts\nTests: 1 passed."
+          },
+          {
+            "role": "assistant",
+            "text": "Green. Test catches missing emails; implementation throws cleanly."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What's the value of letting the agent run the test *before* writing the implementation?",
+            "options": [
+              "It's faster.",
+              "It proves the test actually fails — a passing assertion you didn't see fail is unverified.",
+              "It avoids running the test twice.",
+              "It saves on tokens."
+            ],
+            "correctIndex": 1,
+            "explanation": "Red, then green. A test that's never seen red doesn't prove anything yet — it might be passing for the wrong reason."
+          }
+        ]
+      },
+      {
+        "id": "cc-09-git-and-commits",
+        "title": "Git Operations and Commits",
+        "kind": "walkthrough",
+        "duration": "10 min",
+        "summary": "Letting the agent stage, write a real commit message, and stop short of pushing.",
+        "body": [
+          "Claude Code can stage changes, write commit messages, and even create branches — but by default it will not push or force-push without explicit confirmation. Treat git operations like any other risky tool: gate them through your approval."
+        ],
+        "steps": [
+          {
+            "title": "Ask for a commit",
+            "body": "After making changes, ask the agent to commit. It will run status, diff, and log to read the project's commit style first.",
+            "copy": "Commit my changes. Use the existing commit message style in this repo.",
+            "copyLang": "text",
+            "verify": "You see Bash calls for `git status`, `git diff`, `git log`, then a commit with a message that matches the repo's tone."
+          },
+          {
+            "title": "Refuse the auto-push",
+            "body": "If the agent offers to push, say no. Push is a shared-state action — keep that on your hands.",
+            "copy": "Do not push. I'll review the local commit first.",
+            "copyLang": "text",
+            "verify": "The session ends with the commit local; you can `git log -1` and inspect."
+          },
+          {
+            "title": "Reset gracefully",
+            "body": "If the message or content is wrong, ask the agent to soft-reset and try again, rather than amending.",
+            "copy": "Soft-reset the last commit. I want to make a different change.",
+            "copyLang": "text",
+            "verify": "`git status` shows the changes back in your working tree, ready to be re-committed."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why is `git push` a different category of action than `git commit` for the agent?",
+            "options": [
+              "Push is slower.",
+              "Push affects shared state (the remote) and is much harder to undo than a local commit.",
+              "Push requires a network connection.",
+              "Commit is read-only."
+            ],
+            "correctIndex": 1,
+            "explanation": "Local commits are recoverable. Remote pushes can affect teammates and CI; treat them as deliberate human actions."
+          }
+        ]
+      },
+      {
+        "id": "cc-10-multi-file-refactors",
+        "title": "Multi-File Refactors",
+        "kind": "sandbox",
+        "duration": "11 min",
+        "summary": "Renames, signature changes, and dependency updates done as one coherent change.",
+        "body": [
+          "The thing humans hate most about refactors is the bookkeeping: every call site, every import, every test. The agent eats that for breakfast — as long as you give it a clear shape change up front.",
+          "Pattern: state the rename or signature change in one sentence. Let the agent do a Grep for call sites. Then ask it to update all of them in a single sweep, run the tests, and report."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Rename the function `getUser` to `fetchUser` everywhere. Then run tests."
+          },
+          {
+            "role": "assistant",
+            "text": "Finding call sites first."
+          },
+          {
+            "role": "tool",
+            "tool": "Grep",
+            "toolInput": "getUser\\(",
+            "text": "src/api.ts:12: export async function getUser(id: string) {\nsrc/server.ts:24: const user = await getUser(req.params.id);\nsrc/api.test.ts:8: it('getUser returns 404 if missing', async () => {"
+          },
+          {
+            "role": "assistant",
+            "text": "Three files. Editing each, then running tests."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/api.ts",
+            "text": "Edit applied."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/server.ts",
+            "text": "Edit applied."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/api.test.ts",
+            "text": "Edit applied."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test --silent",
+            "text": "PASS  src/api.test.ts\nTests: 4 passed."
+          },
+          {
+            "role": "assistant",
+            "text": "Renamed in 3 files. All tests green."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What gives multi-file refactors their reliability?",
+            "options": [
+              "The agent's memory.",
+              "Grep finds every call site, then a coordinated edit + test run proves nothing was missed.",
+              "The agent reads the entire codebase into context.",
+              "Static type checking."
+            ],
+            "correctIndex": 1,
+            "explanation": "Search → edit → verify is the loop. Type checking and tests are the verification step that catches misses."
+          }
+        ]
+      },
+      {
+        "id": "cc-11-debugging",
+        "title": "Debugging with Claude",
+        "kind": "sandbox",
+        "duration": "12 min",
+        "summary": "Hypothesis → instrumentation → evidence → fix. The structured-debug pattern.",
+        "body": [
+          "Most debugging fails because people guess. The structured pattern is: state a hypothesis ('I think X is null because Y'), instrument to test it (add a log, write a failing test), observe, then either confirm and fix or update the hypothesis.",
+          "The agent is great at this if you ask it to follow the pattern explicitly. Without that prompt, it will sometimes leap to a fix without proving the cause."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "The /users endpoint returns 500 sometimes. Find the cause structurally — hypothesis, evidence, fix."
+          },
+          {
+            "role": "assistant",
+            "text": "Reading the handler first."
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "src/routes/users.ts",
+            "text": "router.get('/users/:id', async (req, res) => {\n  const user = await db.users.findById(req.params.id);\n  res.json(user.toJSON());\n});"
+          },
+          {
+            "role": "assistant",
+            "text": "Hypothesis: when the user doesn't exist, findById returns null and `user.toJSON()` throws. Adding a failing test."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/routes/users.test.ts (add 404 test)",
+            "text": "Added 8 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run users",
+            "text": "FAIL  src/routes/users.test.ts\n  ● GET /users/:id returns 404 for missing user\n    TypeError: Cannot read properties of null (reading 'toJSON')"
+          },
+          {
+            "role": "assistant",
+            "text": "Hypothesis confirmed. Adding the null check + 404."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "src/routes/users.ts (handle null)",
+            "text": "Edit applied."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run users",
+            "text": "PASS  src/routes/users.test.ts\nTests: 2 passed."
+          },
+          {
+            "role": "assistant",
+            "text": "Fixed. The 500 was an unhandled null on missing users; now returns 404 with a regression test."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why is writing a failing test before fixing a bug valuable?",
+            "options": [
+              "It satisfies the test runner.",
+              "It proves the cause and prevents regression. A fix without a failing test is unverified.",
+              "It's faster than debugging by hand.",
+              "It's required by Claude Code."
+            ],
+            "correctIndex": 1,
+            "explanation": "If a fix doesn't have a test that fails before it and passes after, you haven't proven the fix addresses the cause."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cc-m3-power-features",
+    "title": "Power Features",
+    "summary": "Slash commands, skills, subagents, plan mode, hooks, and MCP — the tools that let you bend Claude Code to your workflow.",
+    "lessons": [
+      {
+        "id": "cc-12-slash-commands",
+        "title": "Slash Commands",
+        "kind": "walkthrough",
+        "duration": "8 min",
+        "summary": "The built-ins worth memorizing: /init, /clear, /resume, /compact, /rewind, /model.",
+        "body": [
+          "Slash commands are first-class shortcuts in Claude Code. Each one fires a specific behavior — write a memory file, clear context, summarize the session. Knowing them is the difference between fighting the chat and steering it."
+        ],
+        "steps": [
+          {
+            "title": "Try /init",
+            "body": "Generates or updates CLAUDE.md by reading your repo. Use it once per project, then prune the output.",
+            "copy": "/init",
+            "copyLang": "text",
+            "verify": "A CLAUDE.md is written or updated at the project root."
+          },
+          {
+            "title": "Use /clear when context drifts",
+            "body": "/clear wipes the conversation but keeps your project memory. Run it when you switch tasks — fresh context produces sharper plans.",
+            "copy": "/clear",
+            "copyLang": "text",
+            "verify": "The chat starts a new session; CLAUDE.md is still loaded."
+          },
+          {
+            "title": "Resume a long session with /resume",
+            "body": "If you closed Claude Code and want to pick up where you left off, /resume loads the previous session.",
+            "copy": "/resume",
+            "copyLang": "text",
+            "verify": "The agent restates the goal of the prior session before you continue."
+          },
+          {
+            "title": "Compact when you must keep going",
+            "body": "/compact summarizes the conversation so far so context doesn't blow up. Less destructive than /clear when you need continuity.",
+            "copy": "/compact",
+            "copyLang": "text",
+            "verify": "The session continues with a much smaller context window than before."
+          },
+          {
+            "title": "Rewind when a change goes sideways",
+            "body": "Claude Code checkpoints your files before each change. /rewind (or double-tap Escape) opens the checkpoint picker — restore the code, the conversation, or both. It's the undo button that makes bold experiments cheap.",
+            "copy": "/rewind",
+            "copyLang": "text",
+            "verify": "A picker lists recent checkpoints; selecting one restores that state without touching your git history."
+          },
+          {
+            "title": "Match the model to the task",
+            "body": "/model switches models mid-session. Reach for the frontier tier (Opus 4.8, or the Claude 5 family where available) on hard refactors and planning; drop to Haiku 4.5 for fast, cheap iteration on simple edits.",
+            "copy": "/model",
+            "copyLang": "text",
+            "verify": "The picker shows the active model; the status line reflects your choice on the next turn."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What's the difference between /clear and /compact?",
+            "options": [
+              "Nothing — they're aliases.",
+              "/clear wipes the session entirely; /compact summarizes it to free space without losing continuity.",
+              "/clear keeps tools active; /compact disables them.",
+              "/compact is faster."
+            ],
+            "correctIndex": 1,
+            "explanation": "/clear is the nuclear option for fresh context. /compact preserves intent and decisions in a compressed form."
+          },
+          {
+            "q": "What does /rewind restore?",
+            "options": [
+              "Only the conversation history.",
+              "A checkpoint of your code, your conversation, or both — captured automatically before each change.",
+              "The last git commit.",
+              "Deleted files only."
+            ],
+            "correctIndex": 1,
+            "explanation": "Checkpoints are automatic and separate from git. Use /rewind to unwind an experiment in seconds; keep git for durable history."
+          }
+        ]
+      },
+      {
+        "id": "cc-13-custom-slash-commands",
+        "title": "Writing Your Own Slash Command",
+        "kind": "walkthrough",
+        "duration": "11 min",
+        "summary": "A markdown file in .claude/commands/ becomes a callable workflow.",
+        "body": [
+          "Custom slash commands are how you turn a repeated prompt into a one-keystroke action. Write the prompt as markdown, save it under .claude/commands/, type /your-command, done.",
+          "The use cases are endless: /review-pr, /write-tests, /draft-changelog, /find-todos. Each one is a small specialized agent run you've made repeatable. And when a command outgrows one file — it needs reference docs, scripts, or templates — graduate it to an Agent Skill (next lesson)."
+        ],
+        "steps": [
+          {
+            "title": "Create the commands folder",
+            "body": "Inside your repo, create the directory if it doesn't exist.",
+            "copy": "mkdir -p .claude/commands",
+            "copyLang": "bash",
+            "verify": ".claude/commands/ exists at your project root."
+          },
+          {
+            "title": "Author the command",
+            "body": "Write a markdown file with the prompt you want fired. Use $ARGUMENTS for inline arguments.",
+            "copy": "# .claude/commands/review-pr.md\n\nAct as a senior reviewer. Look at the diff for the current branch.\nFlag: missing tests, unsafe SQL, leaky abstractions, dead code.\n\nIf I named a focus area: $ARGUMENTS",
+            "copyLang": "markdown",
+            "verify": ".claude/commands/review-pr.md exists with that content."
+          },
+          {
+            "title": "Use it",
+            "body": "From any session in that repo, type the command.",
+            "copy": "/review-pr auth module",
+            "copyLang": "text",
+            "verify": "The agent runs the prompt with 'auth module' substituted into $ARGUMENTS."
+          },
+          {
+            "title": "Iterate",
+            "body": "Run the command. If the output is too long, too short, or wrong — edit the markdown and re-run. Slash commands evolve like any other prompt.",
+            "copy": "/review-pr",
+            "copyLang": "text",
+            "verify": "After edits, the new behavior is live on the next invocation. No reload needed."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Where do custom slash commands live?",
+            "options": [
+              "In CLAUDE.md.",
+              "In .claude/commands/<name>.md inside your repo.",
+              "In ~/.bashrc.",
+              "Inside the Claude Code binary."
+            ],
+            "correctIndex": 1,
+            "explanation": ".claude/commands/<name>.md inside your repo is project-scoped. Personal commands can also live in ~/.claude/commands/."
+          }
+        ]
+      },
+      {
+        "id": "cc-28-agent-skills",
+        "video": {
+          "youtubeId": "OdtGN27LchE",
+          "title": "Claude Code Skills Just Built Me an AI Agent Team (2026 Guide)",
+          "channel": "Riley Brown",
+          "note": "Riley turns a folder of skills into a working agent team — the clearest demo of why skills beat pasting instructions."
+        },
+        "title": "Agent Skills",
+        "kind": "walkthrough",
+        "duration": "11 min",
+        "summary": "Folders of expertise the agent loads on demand. Commands are prompts you fire; skills are capabilities Claude reaches for itself.",
+        "body": [
+          "An Agent Skill is a folder with a SKILL.md inside: instructions, plus any scripts, templates, or reference docs the job needs. The crucial difference from slash commands: you invoke a command, but Claude invokes a skill — whenever your request matches the skill's description.",
+          "Skills use progressive disclosure. Only the name and one-line description sit in context; the full instructions load when the skill fires. That's why a project can carry dozens of skills without bloating every session — and why the description line is the part worth sweating.",
+          "The same format works across Claude Code, claude.ai, and the API, so a skill you write for your repo travels with you."
+        ],
+        "steps": [
+          {
+            "title": "Scaffold a skill",
+            "body": "Project skills live in .claude/skills/<name>/SKILL.md. Personal ones live in ~/.claude/skills/ and follow you across projects.",
+            "copy": "mkdir -p .claude/skills/changelog",
+            "copyLang": "bash",
+            "verify": "The folder exists at your project root."
+          },
+          {
+            "title": "Write SKILL.md",
+            "body": "Frontmatter carries the name and — most importantly — the description Claude matches against. The body is the playbook.",
+            "copy": "---\nname: changelog\ndescription: Draft a CHANGELOG entry from recent commits. Use when the user asks for a changelog, release notes, or 'what shipped'.\n---\n\n# Writing the changelog\n\n1. Run `git log --oneline` since the last tag.\n2. Group commits into Added / Changed / Fixed.\n3. Write entries as user-facing outcomes, not commit messages.\n4. Append to CHANGELOG.md under a new version heading — never rewrite old entries.",
+            "copyLang": "markdown",
+            "verify": "SKILL.md exists with frontmatter and numbered instructions."
+          },
+          {
+            "title": "Trigger it naturally",
+            "body": "Don't type a slash command — just ask in plain language and watch Claude pick the skill up.",
+            "copy": "What shipped since the last release? Draft the changelog entry.",
+            "copyLang": "text",
+            "verify": "The transcript shows the skill loading, then the playbook being followed step by step."
+          },
+          {
+            "title": "Tune the description",
+            "body": "If the skill didn't fire, the description didn't match how you actually ask. Rewrite it with the phrases you'd really use — that line is the routing layer.",
+            "copy": "description: Draft a CHANGELOG entry from recent commits. Use when the user asks for a changelog, release notes, version bump notes, or 'what shipped'.",
+            "copyLang": "markdown",
+            "verify": "The same natural-language ask now reliably triggers the skill."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What's the key difference between a slash command and a skill?",
+            "options": [
+              "Skills are faster.",
+              "You invoke a command explicitly; Claude invokes a skill itself when your request matches its description.",
+              "Commands can't take arguments.",
+              "Skills only work in the API."
+            ],
+            "correctIndex": 1,
+            "explanation": "Commands are manual triggers. Skills are self-serve expertise — the description line tells Claude when to reach for them."
+          },
+          {
+            "q": "Why doesn't carrying 30 skills bloat your context?",
+            "options": [
+              "Skills are compressed.",
+              "Progressive disclosure — only each skill's name and description load up front; the full body loads only when a skill fires.",
+              "Skills share one context window.",
+              "It does bloat context; keep under 5 skills."
+            ],
+            "correctIndex": 1,
+            "explanation": "The index is cheap; the payload is lazy-loaded. That's what makes a large skill library viable."
+          }
+        ]
+      },
+      {
+        "id": "cc-14-subagents",
+        "title": "Subagents and the Agent Tool",
+        "kind": "concept",
+        "duration": "10 min",
+        "summary": "When to delegate to a subagent vs do it inline. Context budgets explained.",
+        "body": [
+          "A subagent is a fresh Claude session the main agent spawns to do a specific task. It has its own context window — so it can read 50 files without polluting your main thread. When it finishes, it returns a summary, not the raw work.",
+          "Use subagents for: open-ended research ('find every place that uses our deprecated API'), large lookups, or work where the *findings* matter more than the *steps*. Don't use them for tasks where you need the main agent to keep that context — refactors, debugging, anything stateful.",
+          "The trap: subagents are expensive. If you fire three in parallel for a task you could do inline, you've burned tokens for nothing. The rule of thumb: would I want to read all the intermediate output? If no, delegate.",
+          "You can also define named subagents — a markdown file under .claude/agents/ with its own system prompt and tool allowlist — and Claude routes matching work to them automatically. /agents lists what's available. A read-only code-reviewer is the classic first one to write."
+        ],
+        "quiz": [
+          {
+            "q": "When is a subagent the right call?",
+            "options": [
+              "Always — fresh context is always better.",
+              "When the task is open-ended research and you want the findings, not the intermediate steps, in the main context.",
+              "For any task longer than 5 minutes.",
+              "Never — they waste tokens."
+            ],
+            "correctIndex": 1,
+            "explanation": "Subagents are great when you want a summary of work that would otherwise pollute the main context. They're wasteful for short, stateful tasks."
+          },
+          {
+            "q": "What does a subagent return to the main agent?",
+            "options": [
+              "The full transcript of its work.",
+              "A summary it composes itself; the intermediate steps are not visible to the main thread.",
+              "Nothing — they're fire and forget.",
+              "Tool call traces only."
+            ],
+            "correctIndex": 1,
+            "explanation": "The summary is what crosses the boundary. Intermediate work stays in the subagent's own context."
+          }
+        ]
+      },
+      {
+        "id": "cc-15-plan-mode",
+        "title": "Plan Mode",
+        "kind": "sandbox",
+        "duration": "9 min",
+        "summary": "Read-only thinking before any edit. The cure for premature commitment.",
+        "body": [
+          "In Plan Mode the agent can read, search, and reason — but it cannot edit, run shell commands that modify state, or commit. It produces a plan you approve before it gets the tools to act. Toggle it with Shift+Tab, or launch straight into it with `claude --permission-mode plan`.",
+          "When to use it: anything that touches more than two files, anything you're not 100% sure how to scope, anything where the wrong approach costs more than waiting one extra turn."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "[Plan mode] Migrate our auth from session cookies to JWTs. Don't change anything yet — propose the plan."
+          },
+          {
+            "role": "assistant",
+            "text": "Reading current auth implementation first."
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "src/middleware/auth.ts",
+            "text": "[session cookie middleware, 32 lines]"
+          },
+          {
+            "role": "tool",
+            "tool": "Grep",
+            "toolInput": "req.session",
+            "text": "11 matches across 6 files"
+          },
+          {
+            "role": "assistant",
+            "text": "Plan:\n1. Add JWT issue/verify utilities (src/auth/jwt.ts).\n2. Replace session middleware with JWT middleware; keep req.user shape stable.\n3. Update 6 call sites that read req.session — they should switch to req.user.\n4. Add tests for: valid token, expired token, missing token, malformed.\n5. Migration: keep old session middleware behind a flag for one release.\n\nNo edits yet. Approve to proceed."
+          },
+          {
+            "role": "user",
+            "text": "Approved. Go."
+          },
+          {
+            "role": "assistant",
+            "text": "Exiting plan mode. Acting now."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why does Plan Mode disallow edits?",
+            "options": [
+              "Edits are slow.",
+              "It forces the agent to articulate the full approach before any state changes — so you can correct course before damage is done.",
+              "It saves tokens.",
+              "Tools don't work in plan mode."
+            ],
+            "correctIndex": 1,
+            "explanation": "Plan mode is about reversibility. A bad plan caught before any edit is free; the same plan caught after 12 file changes is expensive."
+          }
+        ]
+      },
+      {
+        "id": "cc-16-hooks",
+        "title": "Hooks: Pre and Post Tool",
+        "kind": "walkthrough",
+        "duration": "11 min",
+        "summary": "Run a script before or after each tool call. Lint on every edit; auto-test on commit.",
+        "body": [
+          "Hooks let you wedge custom logic into the agent's loop. PreToolUse fires before the agent calls a tool — you can rewrite, allow, or block. PostToolUse fires after — perfect for running formatters, type-checks, or tests automatically. Other events cover the rest of the lifecycle (SessionStart, UserPromptSubmit, Stop), but the Pre/PostToolUse pair does most of the real work.",
+          "Configured in .claude/settings.json. The biggest win: post-edit linting. Every time the agent edits a file, your linter runs; if it fails, the agent sees the failure and self-corrects. You never see the broken state."
+        ],
+        "steps": [
+          {
+            "title": "Open the settings file",
+            "body": "Create or open the project settings.",
+            "copy": "code .claude/settings.json",
+            "copyLang": "bash",
+            "verify": "An empty or existing settings.json opens."
+          },
+          {
+            "title": "Add a post-edit format hook",
+            "body": "Run prettier on every Edit/Write to keep code consistent without asking the agent.",
+            "copy": "{\n  \"hooks\": {\n    \"PostToolUse\": [{\n      \"matcher\": \"Edit|Write\",\n      \"hooks\": [{ \"type\": \"command\", \"command\": \"npx prettier --write\" }]\n    }]\n  }\n}",
+            "copyLang": "json",
+            "verify": "After the agent edits a file, you see prettier run in the tool stream."
+          },
+          {
+            "title": "Add a pre-bash safety hook",
+            "body": "Block the agent from running risky commands without asking. The hook intercepts and you decide.",
+            "copy": "{\n  \"hooks\": {\n    \"PreToolUse\": [{\n      \"matcher\": \"Bash\",\n      \"hooks\": [{ \"type\": \"command\", \"command\": \"./scripts/audit-bash.sh\" }]\n    }]\n  }\n}",
+            "copyLang": "json",
+            "verify": "Bash calls now route through your script. Add a deny list for things like `rm -rf /` and `git push --force`."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Where do hooks live?",
+            "options": [
+              "In CLAUDE.md.",
+              "In .claude/settings.json (project) or ~/.claude/settings.json (user).",
+              "In a dedicated `hooks/` folder at the repo root.",
+              "Inside slash commands."
+            ],
+            "correctIndex": 1,
+            "explanation": "Hooks are configured in settings.json. The project file applies in that repo only; the user file applies globally."
+          }
+        ]
+      },
+      {
+        "id": "cc-17-mcp-servers",
+        "title": "MCP Servers",
+        "kind": "concept",
+        "duration": "10 min",
+        "summary": "Pluggable tools beyond the built-ins. Connecting your database, your Slack, your Linear.",
+        "body": [
+          "MCP — Model Context Protocol — is the standard Claude Code uses to talk to external tools. Need the agent to query your Postgres? Hit your Linear tickets? Read your Notion? Each capability is an MCP server you add to the agent's toolbelt.",
+          "MCP servers are processes (local or remote) that expose tools the agent can call. The protocol is open and language-agnostic — you can write your own in an afternoon, and thousands are already published. Adding one is a single command — `claude mcp add` — and remote servers authenticate with OAuth via /mcp.",
+          "The mental model: built-in tools give the agent a terminal. MCP servers extend that terminal to your whole stack."
+        ],
+        "quiz": [
+          {
+            "q": "What does MCP do?",
+            "options": [
+              "It encrypts messages between you and Claude.",
+              "It's the standard protocol for plugging external tools into the agent — databases, APIs, SaaS — so they appear as callable tools alongside Read and Bash.",
+              "It compresses context.",
+              "It's a slash command framework."
+            ],
+            "correctIndex": 1,
+            "explanation": "MCP turns external systems into agent-callable tools through a standard protocol. The agent doesn't know or care if a tool is built-in or comes from MCP."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cc-m4-vibe-patterns",
+    "title": "Vibe Coding Patterns",
+    "summary": "Prompts and rhythms that compound. The difference between a senior vibe coder and a tourist.",
+    "lessons": [
+      {
+        "id": "cc-18-spec-tests-code",
+        "title": "Spec → Tests → Code",
+        "kind": "walkthrough",
+        "duration": "12 min",
+        "summary": "Front-load tests; let the agent fill them in. Why this beats spec → code → tests.",
+        "body": [
+          "When the spec exists as failing tests *first*, the agent has a measurable target. It writes code, runs tests, sees red, edits, runs again. The loop terminates only when the spec is satisfied.",
+          "When you write code first and tests after, the tests describe what the code already does — not what it should do. They lose their value as a forcing function."
+        ],
+        "steps": [
+          {
+            "title": "Describe the spec in prose",
+            "body": "Don't dive into types yet. Write 4-6 sentences that describe the behavior, the inputs, the outputs, the edge cases.",
+            "copy": "Write a function `parseDuration` that takes strings like '5m', '1h30m', '2d4h' and returns total minutes. Throws on empty input. Ignores whitespace. Case-insensitive units.",
+            "copyLang": "text",
+            "verify": "The spec is short, behavior-focused, and lists at least 2 edge cases."
+          },
+          {
+            "title": "Have the agent write tests first",
+            "body": "Ask explicitly for tests before any implementation.",
+            "copy": "Before writing parseDuration, write a Vitest file that asserts the spec. Include the edge cases. Run it — every test should fail.",
+            "copyLang": "text",
+            "verify": "You see a test file and a failing run with N failures, where N matches the assertions."
+          },
+          {
+            "title": "Now write the code",
+            "body": "Ask for the implementation. Iterate until green.",
+            "copy": "Now implement parseDuration to make every test pass. Don't stop until the run is green.",
+            "copyLang": "text",
+            "verify": "Tests pass. Code is shaped by the spec, not by the first thing that came to mind."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why are tests written *before* the implementation more valuable than tests written after?",
+            "options": [
+              "They run faster.",
+              "They describe the spec, not the code; they force the implementation to satisfy a target rather than rationalize what's there.",
+              "There's no difference.",
+              "Test-after is faster but less correct."
+            ],
+            "correctIndex": 1,
+            "explanation": "Spec-as-tests is a forcing function. Code-as-tests is documentation of accidents."
+          }
+        ]
+      },
+      {
+        "id": "cc-19-iterative-refinement",
+        "title": "Iterative Refinement",
+        "kind": "sandbox",
+        "duration": "10 min",
+        "summary": "Three small turns beat one giant turn. How to size a single ask.",
+        "body": [
+          "A common failure mode: 'Build the entire dashboard. Use these 8 components, fetch from these 3 endpoints, handle loading/error/empty states, add tests.' The agent does 60% well and 40% wrong, and now you have a 400-line diff to debug.",
+          "Better: ship one slice at a time. Empty state. Loading state. One endpoint. One component. Each turn ends with a runnable, testable artifact. You compound small correct steps; you don't debug a huge wrong step."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Add the dashboard. Start with just the loading skeleton — no real data yet."
+          },
+          {
+            "role": "assistant",
+            "text": "Smallest slice first."
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "app/dashboard/page.tsx (skeleton only)",
+            "text": "Wrote 22 lines."
+          },
+          {
+            "role": "user",
+            "text": "Good. Now wire the /api/stats endpoint and replace the skeleton with real numbers. Loading + error states only — no empty state yet."
+          },
+          {
+            "role": "assistant",
+            "text": "Adding fetch + states."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "app/dashboard/page.tsx",
+            "text": "Edit applied."
+          },
+          {
+            "role": "user",
+            "text": "Now add the empty state for new users."
+          },
+          {
+            "role": "tool",
+            "tool": "Edit",
+            "toolInput": "app/dashboard/page.tsx",
+            "text": "Edit applied."
+          },
+          {
+            "role": "assistant",
+            "text": "Three small steps; each ended with a working dashboard. Easy to revert any one."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why does sizing tasks small make agentic work more reliable?",
+            "options": [
+              "Agents have a strict turn limit.",
+              "Each small step ends in a verifiable artifact; mistakes are isolated and cheap to revert. Big steps compound errors.",
+              "Small tasks are faster.",
+              "It saves tokens."
+            ],
+            "correctIndex": 1,
+            "explanation": "Small steps create checkpoints. Big steps create one giant diff where errors hide."
+          }
+        ]
+      },
+      {
+        "id": "cc-20-when-to-interrupt",
+        "title": "When to Interrupt vs Let It Run",
+        "kind": "concept",
+        "duration": "8 min",
+        "summary": "Reading the loop. Knowing when re-planning is cheaper than waiting.",
+        "body": [
+          "The instinct to interrupt the moment you see something off is usually wrong. Most of the time, the agent's next observation will catch the error itself. Interrupting throws away that self-correction.",
+          "The right time to interrupt: when the agent is about to do something destructive (rm, git push --force, a dangerous DB query) — that's why approval gates exist. Or when you realize the goal you stated was wrong and continuing would compound the mistake.",
+          "Bad reasons to interrupt: 'I can see this won't work' (let it find out and self-correct), 'It's slow' (wait for the result), 'I have a faster idea' (queue it for after this turn)."
+        ],
+        "quiz": [
+          {
+            "q": "Which is a *good* reason to interrupt mid-loop?",
+            "options": [
+              "You think the next step is wrong.",
+              "It's taking longer than you expected.",
+              "You realize the goal you stated was wrong, and continuing under the wrong goal will compound the mistake.",
+              "You want to add a different feature."
+            ],
+            "correctIndex": 2,
+            "explanation": "Interruption is for goal changes and destructive actions. Tactical doubts are usually better resolved by letting the loop self-correct."
+          }
+        ]
+      },
+      {
+        "id": "cc-21-code-review",
+        "title": "Code Review with Claude",
+        "kind": "sandbox",
+        "duration": "10 min",
+        "summary": "Using the agent as a second pair of eyes on your own diff before you push.",
+        "body": [
+          "Self-review with the agent catches the things you can't see anymore — the assumptions baked into your own diff. It's not a replacement for human review; it's the spell-check of code.",
+          "Best framing: 'Review this diff like a senior who hates churn. What are the missing tests, the leaky abstractions, the unsafe assumptions?'"
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Review the staged diff. Senior posture, hostile to churn. Be specific."
+          },
+          {
+            "role": "assistant",
+            "text": "Reading the staged diff."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "git diff --cached",
+            "text": "[diff: adds POST /api/orders with no input validation; updates schema; one new test]"
+          },
+          {
+            "role": "assistant",
+            "text": "Three issues:\n1. orderRouter accepts `userId` from the body and trusts it — should come from the session, not user input.\n2. The new test only covers happy path. Missing: invalid items array, negative quantity, unauthenticated request.\n3. Schema migration adds `total_cents INT NOT NULL` with no default — will fail in prod if any row exists. Add a backfill or default."
+          },
+          {
+            "role": "user",
+            "text": "Fix #1 now. I'll add tests for #2 myself."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What's a useful framing for self-review with the agent?",
+            "options": [
+              "Ask if the code 'looks good.'",
+              "Ask the agent to act like a senior reviewer hostile to churn, and be specific about what to flag (missing tests, unsafe input, leaky abstractions).",
+              "Tell it to rewrite the code.",
+              "Ask for a summary."
+            ],
+            "correctIndex": 1,
+            "explanation": "Vague framings produce vague reviews. The more specific the posture and the targets, the more useful the feedback."
+          }
+        ]
+      },
+      {
+        "id": "cc-22-pair-programming-flow",
+        "title": "The Pair-Programming Flow",
+        "kind": "concept",
+        "duration": "9 min",
+        "summary": "How to stay in flow when the agent is your driver and you're the navigator.",
+        "body": [
+          "In classical pair programming, one person types (driver) and one thinks (navigator). With the agent, you're the navigator. Your job is shape, intent, and quality — not characters.",
+          "The pattern: state intent in 2-3 sentences. Watch the agent act. Read the diff. Approve, redirect, or correct. Don't context-switch back to writing characters yourself; if something's wrong, *say what's wrong* and let the agent fix it.",
+          "Two skills compound here. First, learn to articulate intent precisely — vague prompts produce vague code. Second, learn to read diffs faster than you can write them. That's where the speedup actually lives."
+        ],
+        "quiz": [
+          {
+            "q": "In an agent-driven pair, what's your role?",
+            "options": [
+              "Type the code while the agent watches.",
+              "Articulate intent and review diffs; let the agent type.",
+              "Write tests only.",
+              "Approve every keystroke."
+            ],
+            "correctIndex": 1,
+            "explanation": "You're the navigator. The work shifts from typing to articulating and reviewing — that's where the leverage is."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cc-m5-real-projects",
+    "title": "Real Projects",
+    "summary": "Full-loop case studies. Not toy examples — real shippable work.",
+    "lessons": [
+      {
+        "id": "cc-23-nextjs-feature",
+        "video": {
+          "youtubeId": "COh_cjrDOzc",
+          "title": "Build Amazing Websites with Claude (Full Guide)",
+          "channel": "Riley Brown",
+          "note": "Riley builds a full site with Claude end-to-end — a real-time look at the prompt → preview → iterate loop this lesson teaches."
+        },
+        "title": "Building a Next.js Feature",
+        "kind": "sandbox",
+        "duration": "14 min",
+        "summary": "From issue to deployed PR. A complete loop on a realistic Next.js codebase.",
+        "body": [
+          "End-to-end: an issue describes a feature; the agent reads the codebase, writes the route, the page, the test, opens a PR. Watch how a single well-scoped prompt produces a reviewable change."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Add /pricing as a new route with a server-component page. Pull copy from a `pricing.json` next to the page. Add a test that asserts the page renders the headlines."
+          },
+          {
+            "role": "assistant",
+            "text": "Plan: create the route folder, the JSON, the page, the test."
+          },
+          {
+            "role": "tool",
+            "tool": "Glob",
+            "toolInput": "app/**/page.tsx",
+            "text": "app/page.tsx, app/blog/page.tsx, …"
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "app/pricing/pricing.json",
+            "text": "Wrote 14 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "app/pricing/page.tsx",
+            "text": "Wrote 28 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "app/pricing/page.test.tsx",
+            "text": "Wrote 16 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run pricing",
+            "text": "PASS  app/pricing/page.test.tsx"
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "git add app/pricing && git commit -m 'feat(pricing): new route with server-rendered tiers'",
+            "text": "[main abc1234] feat(pricing): new route with server-rendered tiers"
+          },
+          {
+            "role": "assistant",
+            "text": "Done. New route at /pricing, JSON-driven copy, test green, committed locally."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why does the prompt include both the route, the data shape, and the test in one breath?",
+            "options": [
+              "To minimize turns.",
+              "Front-loading constraints (where copy lives, what to test) makes the loop converge in one pass instead of three.",
+              "It's required.",
+              "The agent can't handle multi-step asks."
+            ],
+            "correctIndex": 1,
+            "explanation": "Each constraint added later costs a re-plan. Stating shape, data, and test up front is one of the cheapest ways to compound speed."
+          }
+        ]
+      },
+      {
+        "id": "cc-24-tests-first",
+        "title": "Writing Tests-First",
+        "kind": "sandbox",
+        "duration": "12 min",
+        "summary": "Red, green, refactor — but the agent does the typing.",
+        "body": [
+          "The tightest TDD loop you'll ever drive. You describe the spec; the agent writes the failing test; the agent writes the implementation; you review; the agent refactors. You do almost no typing — but you steer with precision."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Build a `RateLimiter` class. New limiter accepts (maxRequests, windowMs). Each call to .check(key) returns true if under limit, false if over. Window slides. Memory only."
+          },
+          {
+            "role": "assistant",
+            "text": "Tests first. Writing failing tests for: under limit, exactly at limit, over limit, window slides, distinct keys are independent."
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "src/rate-limit.test.ts",
+            "text": "Wrote 42 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run rate-limit",
+            "text": "FAIL  src/rate-limit.test.ts  (5 failures — module does not exist)"
+          },
+          {
+            "role": "assistant",
+            "text": "All red. Now writing the implementation."
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "src/rate-limit.ts",
+            "text": "Wrote 36 lines."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run rate-limit",
+            "text": "PASS  src/rate-limit.test.ts (5 passed)"
+          },
+          {
+            "role": "assistant",
+            "text": "Green. Want me to refactor for clarity, or ship as-is?"
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What does seeing all 5 tests fail before any implementation prove?",
+            "options": [
+              "Nothing — it's just a checkpoint.",
+              "That the tests are real and exercise behavior that doesn't exist yet — they couldn't have been satisfied accidentally.",
+              "That the agent is slow.",
+              "That the spec is wrong."
+            ],
+            "correctIndex": 1,
+            "explanation": "Tests that have never been red prove nothing. Watching them go red, then green, is the verification."
+          }
+        ]
+      },
+      {
+        "id": "cc-25-legacy-migration",
+        "title": "Migrating Legacy Code",
+        "kind": "sandbox",
+        "duration": "13 min",
+        "summary": "TypeScript adoption in a JS codebase, one module at a time, tests stay green.",
+        "body": [
+          "Big migrations fail when teams treat them as one push. The agent-driven approach is the opposite: migrate one leaf module first, ship it, do the next leaf. The repo is always green; you can stop at any point."
+        ],
+        "transcript": [
+          {
+            "role": "user",
+            "text": "Migrate src/utils/format.js to TypeScript. Don't touch any other file. Existing tests must still pass."
+          },
+          {
+            "role": "assistant",
+            "text": "Reading the file and its tests."
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "src/utils/format.js",
+            "text": "[3 exported helpers, ~40 lines]"
+          },
+          {
+            "role": "tool",
+            "tool": "Read",
+            "toolInput": "src/utils/format.test.js",
+            "text": "[14 tests against those helpers]"
+          },
+          {
+            "role": "tool",
+            "tool": "Write",
+            "toolInput": "src/utils/format.ts",
+            "text": "Wrote 46 lines (typed)."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "rm src/utils/format.js",
+            "text": "removed."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npm test -- --run format",
+            "text": "PASS — 14 tests."
+          },
+          {
+            "role": "tool",
+            "tool": "Bash",
+            "toolInput": "npx tsc --noEmit",
+            "text": "no type errors."
+          },
+          {
+            "role": "assistant",
+            "text": "format.js → format.ts done. Existing JS tests still pass; types compile clean. Next module?"
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What's the key constraint that makes leaf-by-leaf migration safe?",
+            "options": [
+              "It's faster.",
+              "Existing tests must stay green after every step. The repo is shippable at every commit.",
+              "TypeScript is forgiving.",
+              "Leaves don't have dependencies."
+            ],
+            "correctIndex": 1,
+            "explanation": "Always-green is the invariant. If you ever break it, you're betting on landing the whole migration before anyone else needs the codebase. That bet usually loses."
+          }
+        ]
+      },
+      {
+        "id": "cc-26-shipping-to-production",
+        "title": "Shipping to Production",
+        "kind": "walkthrough",
+        "duration": "12 min",
+        "summary": "Pre-deploy checks, the migration script, the rollback plan.",
+        "body": [
+          "Production deploys are the riskiest moment in the loop. Use the agent as a checklist enforcer: it verifies tests, types, lint, migrations, env vars, and prepares the rollback before you press the button."
+        ],
+        "steps": [
+          {
+            "title": "Run the pre-deploy gauntlet",
+            "body": "Tests, types, lint, build — all four green before anything touches prod.",
+            "copy": "Run npm test, tsc --noEmit, npm run lint, and npm run build. Stop at the first red. Don't suggest fixes — just report.",
+            "copyLang": "text",
+            "verify": "Either all four pass, or you get a precise failure to triage."
+          },
+          {
+            "title": "Inspect the migration",
+            "body": "Have the agent read the migration that's about to run, summarize what it changes, and flag any non-reversible operations.",
+            "copy": "Read migrations/2026_05_15_orders_total.sql. Summarize what it does. Flag anything that's not reversible by a simple `down` script.",
+            "copyLang": "text",
+            "verify": "You get a 1-paragraph summary plus an explicit list of irreversible ops (DROPs, NOT NULL on backfilled columns, etc.)."
+          },
+          {
+            "title": "Draft the rollback plan",
+            "body": "Before deploying, have the agent write the rollback steps you'll run if something breaks.",
+            "copy": "Draft the rollback plan for this deploy: how to revert app code, how to revert the migration, who to ping. Save to docs/rollbacks/2026-05-15.md.",
+            "copyLang": "text",
+            "verify": "A markdown file exists with the rollback steps before you deploy. Future you will thank present you."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "Why draft the rollback plan *before* deploying instead of after a problem?",
+            "options": [
+              "It's faster.",
+              "Under pressure your judgment is worse; pre-written rollback steps are saner than improvised ones.",
+              "Rollbacks are easier to plan after.",
+              "It's required by SOC 2."
+            ],
+            "correctIndex": 1,
+            "explanation": "The calmest moment is before the deploy. Use it to write the plan you'd want to be holding when things go sideways."
+          }
+        ]
+      },
+      {
+        "id": "cc-27-capstone",
+        "title": "Capstone: Ship a Side Project",
+        "kind": "walkthrough",
+        "duration": "60 min",
+        "summary": "Pick a real idea, scope it, build it with Claude Code, deploy it. Course-end project.",
+        "body": [
+          "The capstone is the proof. Pick a small but real product idea — something a few people would actually use. Scope it down to what you can ship in one weekend with the agent driving.",
+          "Constraints: must be something you'd be willing to put your name on, must be deployed somewhere a human can visit, must have at least one test that exercises the happy path. That's it."
+        ],
+        "steps": [
+          {
+            "title": "Pick the idea — small and real",
+            "body": "Not a clone of Twitter. Not 'a CRM for X.' Pick one tiny tool with one user — maybe yourself. A bookmark organizer. A meeting-notes summarizer. A tip calculator with split logic. The smaller, the better.",
+            "copy": "I'm building: <one sentence>. Primary user: <one person>. Done when: <one observable outcome>.",
+            "copyLang": "text",
+            "verify": "Your idea fits in three sentences. If it doesn't, scope down."
+          },
+          {
+            "title": "Set up the repo with the agent",
+            "body": "Use Claude Code to scaffold. Pick a stack you mostly know — capstone is not the time to learn three new frameworks.",
+            "copy": "Scaffold a Next.js app with: TypeScript, Tailwind, a single page, a CLAUDE.md that captures my conventions. Initialize git. Don't deploy yet.",
+            "copyLang": "text",
+            "verify": "You have a runnable app on localhost:3000."
+          },
+          {
+            "title": "Build the spine in 3-4 small turns",
+            "body": "Use what you learned: spec → tests → code, small slices, mark-complete on each. Each turn ends in a runnable, testable state.",
+            "copy": "Build the [first feature]. Tests first; one assertion per behavior; then the implementation; then run.",
+            "copyLang": "text",
+            "verify": "Each turn produces a slice you could ship. If a turn produces something not-shippable, scope it smaller next time."
+          },
+          {
+            "title": "Deploy",
+            "body": "Vercel, Netlify, Cloudflare Pages, Railway — pick whichever has a one-command deploy.",
+            "copy": "Walk me through deploying this to Vercel. Stop after each step so I can confirm.",
+            "copyLang": "text",
+            "verify": "There is a public URL. You can text it to a friend."
+          },
+          {
+            "title": "Write a 1-paragraph postmortem",
+            "body": "The capstone isn't done until you've reflected. What did the agent do better than you expected? Where did it lose? What prompts would you reuse next time?",
+            "copy": "[your honest reflection — save it as POSTMORTEM.md in the repo]",
+            "copyLang": "markdown",
+            "verify": "POSTMORTEM.md exists, is 1-2 paragraphs, and lists at least one thing you'd do differently. You're done with the course."
+          }
+        ],
+        "quiz": [
+          {
+            "q": "What is a *bad* capstone choice?",
+            "options": [
+              "A bookmark organizer.",
+              "A clone of an existing major product.",
+              "A tip splitter for your friend group.",
+              "A tiny meeting-notes summarizer."
+            ],
+            "correctIndex": 1,
+            "explanation": "Clones don't teach scoping. Tiny real things do. Pick small."
+          }
+        ]
+      }
+    ]
+  }
+]
