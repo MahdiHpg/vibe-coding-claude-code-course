@@ -1,0 +1,674 @@
+{
+  "cc-01-what-is-claude-code": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-02-install-the-cli": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-03-first-conversation": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-04-the-agentic-loop": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-05-claude-md-and-memory": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-06-reading-and-editing": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-07-searching-the-codebase": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-08-running-tests": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-09-git-and-commits": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-10-multi-file-refactors": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-11-debugging": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-12-slash-commands": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-13-custom-slash-commands": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-14-subagents": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-15-plan-mode": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-16-hooks": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-17-mcp-servers": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-18-spec-tests-code": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-19-iterative-refinement": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-20-when-to-interrupt": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-21-code-review": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-22-pair-programming-flow": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-23-nextjs-feature": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-24-tests-first": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-25-legacy-migration": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-26-shipping-to-production": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-27-capstone": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-28-agent-skills": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ]
+}

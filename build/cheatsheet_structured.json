@@ -1,0 +1,213 @@
+[
+  {
+    "title": "Install & start",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "npm install -g @anthropic-ai/claude-code"
+      },
+      {
+        "type": "code",
+        "text": "cd my-app && claude"
+      },
+      {
+        "type": "code",
+        "text": "claude \"explain the folder structure and find the entry point\""
+      },
+      {
+        "type": "code",
+        "text": "claude -p \"list the TODO comments in src/\""
+      },
+      {
+        "type": "code",
+        "text": "claude -c"
+      },
+      {
+        "type": "code",
+        "text": "claude -r"
+      },
+      {
+        "type": "code",
+        "text": "claude --model opus"
+      },
+      {
+        "type": "code",
+        "text": "claude --add-dir ../shared-lib"
+      },
+      {
+        "type": "code",
+        "text": "claude update"
+      }
+    ]
+  },
+  {
+    "title": "Slash commands",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "/compact keep the failing test output and the plan"
+      }
+    ]
+  },
+  {
+    "title": "Keyboard & input",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "@src/auth/session.ts why does this expire early?"
+      },
+      {
+        "type": "code",
+        "text": "!npm test"
+      },
+      {
+        "type": "code",
+        "text": "# always run pnpm, never npm"
+      }
+    ]
+  },
+  {
+    "title": "Modes & permissions",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "claude --permission-mode plan"
+      },
+      {
+        "type": "code",
+        "text": "claude --dangerously-skip-permissions"
+      },
+      {
+        "type": "code",
+        "text": "claude --allowedTools \"Read\" \"Bash(npm test)\""
+      },
+      {
+        "type": "code",
+        "text": "{ \"permissions\": { \"allow\": [\"Bash(pnpm test*)\"], \"deny\": [\"Read(./.env)\"] } }"
+      }
+    ]
+  },
+  {
+    "title": "Memory & config files",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "@AGENTS.md"
+      },
+      {
+        "type": "code",
+        "text": "# .claude/commands/fix-issue.md\nFix GitHub issue $ARGUMENTS. Read it with gh, write a failing test, then make it pass."
+      }
+    ]
+  },
+  {
+    "title": "Hooks",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "{ \"matcher\": \"Edit|Write\", \"hooks\": [{ \"type\": \"command\", \"command\": \"npx prettier --write \\\"$FILE\\\"\" }] }"
+      }
+    ]
+  },
+  {
+    "title": "MCP",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "claude mcp add github -- npx -y @modelcontextprotocol/server-github"
+      },
+      {
+        "type": "code",
+        "text": "claude mcp add --transport http linear https://mcp.linear.app/mcp"
+      },
+      {
+        "type": "code",
+        "text": "claude mcp remove github"
+      },
+      {
+        "type": "code",
+        "text": "claude mcp add -s project ..."
+      },
+      {
+        "type": "code",
+        "text": "\"allow\": [\"mcp__github__create_issue\"]"
+      }
+    ]
+  },
+  {
+    "title": "Subagents & skills",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "---\nname: code-reviewer\ndescription: Reviews diffs for bugs and style. Use after any change.\ntools: Read, Grep, Glob, Bash\n---"
+      }
+    ]
+  },
+  {
+    "title": "Headless & scripting",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "claude -p \"summarise the last 10 commits\""
+      },
+      {
+        "type": "code",
+        "text": "claude -p \"...\" --output-format json"
+      },
+      {
+        "type": "code",
+        "text": "--max-turns 15"
+      },
+      {
+        "type": "code",
+        "text": "--append-system-prompt \"Only touch files under packages/api\""
+      },
+      {
+        "type": "code",
+        "text": "git diff | claude -p \"review this diff for bugs\""
+      },
+      {
+        "type": "code",
+        "text": "claude -p \"fix the failing test\" --allowedTools \"Read\" \"Edit\" \"Bash(npm test)\""
+      }
+    ]
+  },
+  {
+    "title": "Worktrees & parallel work",
+    "subsections": [],
+    "items": [
+      {
+        "type": "code",
+        "text": "git worktree add ../my-app-auth -b feat/auth && cd ../my-app-auth && claude"
+      },
+      {
+        "type": "code",
+        "text": "git worktree remove ../my-app-auth"
+      }
+    ]
+  },
+  {
+    "title": "Cost & limits",
+    "subsections": [],
+    "items": []
+  },
+  {
+    "title": "Best practices",
+    "subsections": [],
+    "items": []
+  },
+  {
+    "title": "Claude Code FAQ",
+    "subsections": [],
+    "items": []
+  }
+]

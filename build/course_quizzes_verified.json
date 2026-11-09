@@ -1,0 +1,443 @@
+{
+  "cc-01-what-is-claude-code": [
+    {
+      "q": "Which of these best describes Claude Code?",
+      "options": [
+        "An IDE plugin that autocompletes code as you type.",
+        "A CLI agent that reads your repo, runs commands, and edits files with your permission.",
+        "A SaaS that hosts your code in the cloud and runs tests there.",
+        "A code review bot that comments on GitHub PRs."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code runs locally on your machine as a CLI. It can read files, run shell commands, and edit code, but every potentially-destructive action is gated by an approval prompt."
+    },
+    {
+      "q": "What is the core mental shift of \"vibe coding\"?",
+      "options": [
+        "Letting the AI ship code with no oversight.",
+        "Typing prompts in natural language instead of code.",
+        "Operating at the level of outcomes; the agent handles the how.",
+        "Replacing your editor with a chat window."
+      ],
+      "correctIndex": 2,
+      "explanation": "You describe the outcome you want — a feature, a fix, a refactor — and let the agent do the file edits, test runs, and grep work. You still review every change."
+    }
+  ],
+  "cc-02-install-the-cli": [
+    {
+      "q": "Which folder becomes Claude Code's working tree?",
+      "options": [
+        "Your home directory, always.",
+        "Whichever directory you launched `claude` from.",
+        "A sandbox folder Claude creates automatically.",
+        "Any folder you give it the absolute path to."
+      ],
+      "correctIndex": 1,
+      "explanation": "Claude Code uses your launch directory as the project root. Files outside that root are not visible to it unless you give it explicit access."
+    }
+  ],
+  "cc-03-first-conversation": [
+    {
+      "q": "Why did the agent use Read before summarizing?",
+      "options": [
+        "It was required by the system prompt.",
+        "It needed the actual file contents to give a grounded answer instead of guessing.",
+        "Read is faster than its built-in knowledge.",
+        "It always reads README.md before doing anything else."
+      ],
+      "correctIndex": 1,
+      "explanation": "An agent grounds its answers in real evidence. If it can read the file, it should — guessing from a project name is exactly the failure mode tools were built to prevent."
+    },
+    {
+      "q": "What was the loop in this conversation?",
+      "options": [
+        "User → Read → Done.",
+        "User → Assistant decision → Tool call → Tool result → Assistant answer.",
+        "Assistant → User → Tool → Done.",
+        "Tool → User → Assistant → Tool."
+      ],
+      "correctIndex": 1,
+      "explanation": "Every turn the agent decides whether it needs evidence. If yes, it calls a tool and waits. If no, it answers from context. That cycle repeats until the task is complete."
+    }
+  ],
+  "cc-04-the-agentic-loop": [
+    {
+      "q": "Which sequence describes one beat of the agentic loop?",
+      "options": [
+        "Plan, act, observe, adjust.",
+        "Read, edit, commit, push.",
+        "Prompt, generate, validate, deploy.",
+        "Think, write, test, review."
+      ],
+      "correctIndex": 0,
+      "explanation": "Plan: decide. Act: call a tool. Observe: read result. Adjust: update the plan. Then loop."
+    },
+    {
+      "q": "Why is front-loading constraints in your prompt cheaper than adding them later?",
+      "options": [
+        "It uses fewer tokens overall.",
+        "Constraints added mid-loop force a re-plan, throwing away work that was done under the wrong assumption.",
+        "Late constraints are ignored.",
+        "Front-loaded constraints unlock a faster model."
+      ],
+      "correctIndex": 1,
+      "explanation": "If the agent has already read three files and started editing under one set of rules, a new constraint can invalidate that work. Stating constraints up front avoids the re-plan cost."
+    }
+  ],
+  "cc-05-claude-md-and-memory": [
+    {
+      "q": "What belongs in CLAUDE.md?",
+      "options": [
+        "Everything in package.json restated in prose.",
+        "Things the agent cannot figure out from reading the code: hidden conventions, deploy quirks, taste rules you've already corrected once.",
+        "A full architecture overview, multiple pages.",
+        "Your API keys and secrets."
+      ],
+      "correctIndex": 1,
+      "explanation": "CLAUDE.md is for the non-obvious. Anything inferable from the codebase belongs in the codebase. Anything secret never goes in CLAUDE.md."
+    },
+    {
+      "q": "Where does the personal layer live?",
+      "options": [
+        "In every CLAUDE.md, copy-pasted.",
+        "~/.claude/CLAUDE.md — loaded on every project, under the project file.",
+        ".vscode/settings.json.",
+        "It doesn't exist; CLAUDE.md is project-only."
+      ],
+      "correctIndex": 1,
+      "explanation": "~/.claude/CLAUDE.md is your global layer. Project CLAUDE.md overrides it where they conflict."
+    }
+  ],
+  "cc-06-reading-and-editing": [
+    {
+      "q": "Why did the agent re-read the file after editing?",
+      "options": [
+        "To make the conversation longer.",
+        "To verify the edit landed correctly before claiming success.",
+        "Because Edit doesn't actually write to disk.",
+        "It's required by the Edit tool."
+      ],
+      "correctIndex": 1,
+      "explanation": "Trust but verify. The agent confirms its own work with an observation, not a promise."
+    }
+  ],
+  "cc-07-searching-the-codebase": [
+    {
+      "q": "When should you use Glob over Grep?",
+      "options": [
+        "When you want to find file *names* matching a pattern, not their contents.",
+        "Always — Grep is slower.",
+        "When you're searching binary files.",
+        "When you don't know what you're looking for."
+      ],
+      "correctIndex": 0,
+      "explanation": "Glob filters by path/name. Grep reads file contents. Use Glob to locate files; use Grep to find usages."
+    }
+  ],
+  "cc-08-running-tests": [
+    {
+      "q": "What's the value of letting the agent run the test *before* writing the implementation?",
+      "options": [
+        "It's faster.",
+        "It proves the test actually fails — a passing assertion you didn't see fail is unverified.",
+        "It avoids running the test twice.",
+        "It saves on tokens."
+      ],
+      "correctIndex": 1,
+      "explanation": "Red, then green. A test that's never seen red doesn't prove anything yet — it might be passing for the wrong reason."
+    }
+  ],
+  "cc-09-git-and-commits": [
+    {
+      "q": "Why is `git push` a different category of action than `git commit` for the agent?",
+      "options": [
+        "Push is slower.",
+        "Push affects shared state (the remote) and is much harder to undo than a local commit.",
+        "Push requires a network connection.",
+        "Commit is read-only."
+      ],
+      "correctIndex": 1,
+      "explanation": "Local commits are recoverable. Remote pushes can affect teammates and CI; treat them as deliberate human actions."
+    }
+  ],
+  "cc-10-multi-file-refactors": [
+    {
+      "q": "What gives multi-file refactors their reliability?",
+      "options": [
+        "The agent's memory.",
+        "Grep finds every call site, then a coordinated edit + test run proves nothing was missed.",
+        "The agent reads the entire codebase into context.",
+        "Static type checking."
+      ],
+      "correctIndex": 1,
+      "explanation": "Search → edit → verify is the loop. Type checking and tests are the verification step that catches misses."
+    }
+  ],
+  "cc-11-debugging": [
+    {
+      "q": "Why is writing a failing test before fixing a bug valuable?",
+      "options": [
+        "It satisfies the test runner.",
+        "It proves the cause and prevents regression. A fix without a failing test is unverified.",
+        "It's faster than debugging by hand.",
+        "It's required by Claude Code."
+      ],
+      "correctIndex": 1,
+      "explanation": "If a fix doesn't have a test that fails before it and passes after, you haven't proven the fix addresses the cause."
+    }
+  ],
+  "cc-12-slash-commands": [
+    {
+      "q": "What's the difference between /clear and /compact?",
+      "options": [
+        "Nothing — they're aliases.",
+        "/clear wipes the session entirely; /compact summarizes it to free space without losing continuity.",
+        "/clear keeps tools active; /compact disables them.",
+        "/compact is faster."
+      ],
+      "correctIndex": 1,
+      "explanation": "/clear is the nuclear option for fresh context. /compact preserves intent and decisions in a compressed form."
+    },
+    {
+      "q": "What does /rewind restore?",
+      "options": [
+        "Only the conversation history.",
+        "A checkpoint of your code, your conversation, or both — captured automatically before each change.",
+        "The last git commit.",
+        "Deleted files only."
+      ],
+      "correctIndex": 1,
+      "explanation": "Checkpoints are automatic and separate from git. Use /rewind to unwind an experiment in seconds; keep git for durable history."
+    }
+  ],
+  "cc-13-custom-slash-commands": [
+    {
+      "q": "Where do custom slash commands live?",
+      "options": [
+        "In CLAUDE.md.",
+        "In .claude/commands/<name>.md inside your repo.",
+        "In ~/.bashrc.",
+        "Inside the Claude Code binary."
+      ],
+      "correctIndex": 1,
+      "explanation": ".claude/commands/<name>.md inside your repo is project-scoped. Personal commands can also live in ~/.claude/commands/."
+    }
+  ],
+  "cc-28-agent-skills": [
+    {
+      "q": "What's the key difference between a slash command and a skill?",
+      "options": [
+        "Skills are faster.",
+        "You invoke a command explicitly; Claude invokes a skill itself when your request matches its description.",
+        "Commands can't take arguments.",
+        "Skills only work in the API."
+      ],
+      "correctIndex": 1,
+      "explanation": "Commands are manual triggers. Skills are self-serve expertise — the description line tells Claude when to reach for them."
+    },
+    {
+      "q": "Why doesn't carrying 30 skills bloat your context?",
+      "options": [
+        "Skills are compressed.",
+        "Progressive disclosure — only each skill's name and description load up front; the full body loads only when a skill fires.",
+        "Skills share one context window.",
+        "It does bloat context; keep under 5 skills."
+      ],
+      "correctIndex": 1,
+      "explanation": "The index is cheap; the payload is lazy-loaded. That's what makes a large skill library viable."
+    }
+  ],
+  "cc-14-subagents": [
+    {
+      "q": "When is a subagent the right call?",
+      "options": [
+        "Always — fresh context is always better.",
+        "When the task is open-ended research and you want the findings, not the intermediate steps, in the main context.",
+        "For any task longer than 5 minutes.",
+        "Never — they waste tokens."
+      ],
+      "correctIndex": 1,
+      "explanation": "Subagents are great when you want a summary of work that would otherwise pollute the main context. They're wasteful for short, stateful tasks."
+    },
+    {
+      "q": "What does a subagent return to the main agent?",
+      "options": [
+        "The full transcript of its work.",
+        "A summary it composes itself; the intermediate steps are not visible to the main thread.",
+        "Nothing — they're fire and forget.",
+        "Tool call traces only."
+      ],
+      "correctIndex": 1,
+      "explanation": "The summary is what crosses the boundary. Intermediate work stays in the subagent's own context."
+    }
+  ],
+  "cc-15-plan-mode": [
+    {
+      "q": "Why does Plan Mode disallow edits?",
+      "options": [
+        "Edits are slow.",
+        "It forces the agent to articulate the full approach before any state changes — so you can correct course before damage is done.",
+        "It saves tokens.",
+        "Tools don't work in plan mode."
+      ],
+      "correctIndex": 1,
+      "explanation": "Plan mode is about reversibility. A bad plan caught before any edit is free; the same plan caught after 12 file changes is expensive."
+    }
+  ],
+  "cc-16-hooks": [
+    {
+      "q": "Where do hooks live?",
+      "options": [
+        "In CLAUDE.md.",
+        "In .claude/settings.json (project) or ~/.claude/settings.json (user).",
+        "In a dedicated `hooks/` folder at the repo root.",
+        "Inside slash commands."
+      ],
+      "correctIndex": 1,
+      "explanation": "Hooks are configured in settings.json. The project file applies in that repo only; the user file applies globally."
+    }
+  ],
+  "cc-17-mcp-servers": [
+    {
+      "q": "What does MCP do?",
+      "options": [
+        "It encrypts messages between you and Claude.",
+        "It's the standard protocol for plugging external tools into the agent — databases, APIs, SaaS — so they appear as callable tools alongside Read and Bash.",
+        "It compresses context.",
+        "It's a slash command framework."
+      ],
+      "correctIndex": 1,
+      "explanation": "MCP turns external systems into agent-callable tools through a standard protocol. The agent doesn't know or care if a tool is built-in or comes from MCP."
+    }
+  ],
+  "cc-18-spec-tests-code": [
+    {
+      "q": "Why are tests written *before* the implementation more valuable than tests written after?",
+      "options": [
+        "They run faster.",
+        "They describe the spec, not the code; they force the implementation to satisfy a target rather than rationalize what's there.",
+        "There's no difference.",
+        "Test-after is faster but less correct."
+      ],
+      "correctIndex": 1,
+      "explanation": "Spec-as-tests is a forcing function. Code-as-tests is documentation of accidents."
+    }
+  ],
+  "cc-19-iterative-refinement": [
+    {
+      "q": "Why does sizing tasks small make agentic work more reliable?",
+      "options": [
+        "Agents have a strict turn limit.",
+        "Each small step ends in a verifiable artifact; mistakes are isolated and cheap to revert. Big steps compound errors.",
+        "Small tasks are faster.",
+        "It saves tokens."
+      ],
+      "correctIndex": 1,
+      "explanation": "Small steps create checkpoints. Big steps create one giant diff where errors hide."
+    }
+  ],
+  "cc-20-when-to-interrupt": [
+    {
+      "q": "Which is a *good* reason to interrupt mid-loop?",
+      "options": [
+        "You think the next step is wrong.",
+        "It's taking longer than you expected.",
+        "You realize the goal you stated was wrong, and continuing under the wrong goal will compound the mistake.",
+        "You want to add a different feature."
+      ],
+      "correctIndex": 2,
+      "explanation": "Interruption is for goal changes and destructive actions. Tactical doubts are usually better resolved by letting the loop self-correct."
+    }
+  ],
+  "cc-21-code-review": [
+    {
+      "q": "What's a useful framing for self-review with the agent?",
+      "options": [
+        "Ask if the code 'looks good.'",
+        "Ask the agent to act like a senior reviewer hostile to churn, and be specific about what to flag (missing tests, unsafe input, leaky abstractions).",
+        "Tell it to rewrite the code.",
+        "Ask for a summary."
+      ],
+      "correctIndex": 1,
+      "explanation": "Vague framings produce vague reviews. The more specific the posture and the targets, the more useful the feedback."
+    }
+  ],
+  "cc-22-pair-programming-flow": [
+    {
+      "q": "In an agent-driven pair, what's your role?",
+      "options": [
+        "Type the code while the agent watches.",
+        "Articulate intent and review diffs; let the agent type.",
+        "Write tests only.",
+        "Approve every keystroke."
+      ],
+      "correctIndex": 1,
+      "explanation": "You're the navigator. The work shifts from typing to articulating and reviewing — that's where the leverage is."
+    }
+  ],
+  "cc-23-nextjs-feature": [
+    {
+      "q": "Why does the prompt include both the route, the data shape, and the test in one breath?",
+      "options": [
+        "To minimize turns.",
+        "Front-loading constraints (where copy lives, what to test) makes the loop converge in one pass instead of three.",
+        "It's required.",
+        "The agent can't handle multi-step asks."
+      ],
+      "correctIndex": 1,
+      "explanation": "Each constraint added later costs a re-plan. Stating shape, data, and test up front is one of the cheapest ways to compound speed."
+    }
+  ],
+  "cc-24-tests-first": [
+    {
+      "q": "What does seeing all 5 tests fail before any implementation prove?",
+      "options": [
+        "Nothing — it's just a checkpoint.",
+        "That the tests are real and exercise behavior that doesn't exist yet — they couldn't have been satisfied accidentally.",
+        "That the agent is slow.",
+        "That the spec is wrong."
+      ],
+      "correctIndex": 1,
+      "explanation": "Tests that have never been red prove nothing. Watching them go red, then green, is the verification."
+    }
+  ],
+  "cc-25-legacy-migration": [
+    {
+      "q": "What's the key constraint that makes leaf-by-leaf migration safe?",
+      "options": [
+        "It's faster.",
+        "Existing tests must stay green after every step. The repo is shippable at every commit.",
+        "TypeScript is forgiving.",
+        "Leaves don't have dependencies."
+      ],
+      "correctIndex": 1,
+      "explanation": "Always-green is the invariant. If you ever break it, you're betting on landing the whole migration before anyone else needs the codebase. That bet usually loses."
+    }
+  ],
+  "cc-26-shipping-to-production": [
+    {
+      "q": "Why draft the rollback plan *before* deploying instead of after a problem?",
+      "options": [
+        "It's faster.",
+        "Under pressure your judgment is worse; pre-written rollback steps are saner than improvised ones.",
+        "Rollbacks are easier to plan after.",
+        "It's required by SOC 2."
+      ],
+      "correctIndex": 1,
+      "explanation": "The calmest moment is before the deploy. Use it to write the plan you'd want to be holding when things go sideways."
+    }
+  ],
+  "cc-27-capstone": [
+    {
+      "q": "What is a *bad* capstone choice?",
+      "options": [
+        "A bookmark organizer.",
+        "A clone of an existing major product.",
+        "A tip splitter for your friend group.",
+        "A tiny meeting-notes summarizer."
+      ],
+      "correctIndex": 1,
+      "explanation": "Clones don't teach scoping. Tiny real things do. Pick small."
+    }
+  ]
+}
